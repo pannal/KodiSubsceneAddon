@@ -1,7 +1,15 @@
 import requests
 import html5lib
 import re
+import xbmc
+import xbmcvfs
 from html5lib import treebuilders, treewalkers
+
+try:
+    translatePath = xbmc.translatePath
+except:
+    translatePath = xbmcvfs.translatePath
+
 
 TYPE_MATCH_UNKNOWN = 0
 TYPE_MATCH_EXACT = 1

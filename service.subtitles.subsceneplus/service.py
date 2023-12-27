@@ -19,8 +19,8 @@ from resources.lib.Subscene import *
 ADD_ON = xbmcaddon.Addon()
 SCRIPT_ID = ADD_ON.getAddonInfo('id')
 SCRIPT_NAME = ADD_ON.getAddonInfo('name')
-PROFILE = xbmc.translatePath(ADD_ON.getAddonInfo('profile'))
-TEMP = xbmc.translatePath(PROFILE)
+PROFILE = translatePath(ADD_ON.getAddonInfo('profile'))
+TEMP = translatePath(PROFILE)
 START_TIME = time.time()
 DOMAIN_NAME = ADD_ON.getSetting("SDomain")
 
