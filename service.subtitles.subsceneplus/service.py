@@ -12,15 +12,19 @@ import shutil
 import unicodedata
 import urllib.parse
 import time
-import re
 from difflib import SequenceMatcher
 from resources.lib.Subscene import *
+
+try:
+    translatePath = xbmc.translatePath
+except:
+    translatePath = xbmcvfs.translatePath
 
 ADD_ON = xbmcaddon.Addon()
 SCRIPT_ID = ADD_ON.getAddonInfo('id')
 SCRIPT_NAME = ADD_ON.getAddonInfo('name')
-PROFILE = xbmc.translatePath(ADD_ON.getAddonInfo('profile'))
-TEMP = xbmc.translatePath(PROFILE)
+PROFILE = translatePath(ADD_ON.getAddonInfo('profile'))
+TEMP = translatePath(PROFILE)
 START_TIME = time.time()
 DOMAIN_NAME = ADD_ON.getSetting("SDomain")
 
@@ -360,7 +364,11 @@ def GetCurrentItem():
         item['season'] = "0"
         item['episode'] = item['episode'][-1:]
 
-    item['file_original_path'] = urllib.parse.unquote(xbmc.Player().getPlayingFile())
+    path = xbmc.getInfoLabel('Window(10000).Property(videoinfo.current_path)')
+    if path:
+        item['file_original_path'] = os.path.basename(path)
+    else:
+        item['file_original_path'] = urllib.parse.unquote(xbmc.Player().getPlayingFile())
     
     return item
 
@@ -369,11 +377,11 @@ def GetCurrentItem():
 params = get_params()
 
 if params['action'] == 'search' or params['action'] == 'manualsearch':
-    item = GetCurrentItem() 
+    item = GetCurrentItem()
     if 'searchstring' in params:
         item['manualsearch'] = True
         item['manualsearchstring'] = params['searchstring']
-    Search(item)    
+    Search(item)
 
 elif params['action'] == 'download':
     # we pickup all our arguments sent from def Search()
